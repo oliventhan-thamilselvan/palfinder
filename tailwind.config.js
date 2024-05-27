@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    fontFamily: {
+      sans: ['Poppins', 'sans-serif'],
+      serif: ['Space Mono', 'monospace']
+    },
+    extend: {
+      gridTemplateColumns: {
+        principal: 'repeat(12, minmax(0, 64px))'
+      }
+    },
   },
-  plugins: [],
+  plugins: []
 }
