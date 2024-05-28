@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue'
 import Pocketbase from 'pocketbase'
 import { useRouter } from 'vue-router';
+import Header from '../components/HeaderPage.vue'
+import Footer from '../components/FooterPage.vue'
 
 
 onMounted(async () => {
@@ -23,9 +25,9 @@ const doLogout = () => {
 </script>
 
 <template>
+    <Header/>
   <div class="items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-    Home Page
-    <h2>Welcome {{ (currentUser && currentUser?.username) || currentUser?.email }}</h2>
+    <h2>Welcome {{ currentUser && currentUser?.name|| currentUser?.email }}</h2>
     <div class="sm:col-span-2 sm:col-start-1 mt-6">
       <button
         type="button"
@@ -36,4 +38,5 @@ const doLogout = () => {
       </button>
     </div>
   </div>
+  <Footer/>
 </template>
