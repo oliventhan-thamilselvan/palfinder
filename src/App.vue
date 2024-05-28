@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import Header from './components/HeaderPage.vue'
-import Footer from './components/FooterPage.vue'
+import { ref, onMounted } from 'vue'
+import PocketBase from 'pocketbase'
 </script>
 
 <template>
-  <Header />
-  <RouterView />
-  <Footer />
+  <div>
+ <router-view></router-view>
+  </div>
+
 </template>

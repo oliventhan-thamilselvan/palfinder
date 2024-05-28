@@ -1,18 +1,22 @@
 import './assets/css/style.css'
-import V3ScrollLock from 'v3-scroll-lock'
-
 import { createApp } from 'vue'
 import App from './App.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import HomePage from './vues/HomePage.vue'
+import CreateAccountPage from './vues/CreateAccountPage.vue'
+import LoginPage from './vues/LoginPage.vue'
+import RequestChangePasswordPage from './vues/RequestChangePasswordPage.vue'
 
-import { createRouter, createWebHistory } from 'vue-router/auto'
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: '/', redirect: '/home' },
+    { path: '/home', component: HomePage },
+    { path: '/create-account', component: CreateAccountPage },
+    { path: '/login', component: LoginPage },
+    { path: '/request-change-password', component: RequestChangePasswordPage }
+  ]
+})
 
 const app = createApp(App)
-
-app.use(
-    createRouter({
-        history: createWebHistory()
-    })
-)
-app.use(V3ScrollLock, {})
-
-app.mount('#app')
+app.use(router).mount('#app')
