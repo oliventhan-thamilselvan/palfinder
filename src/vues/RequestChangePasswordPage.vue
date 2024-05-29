@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import PocketBase from 'pocketbase'
 import { useRouter } from 'vue-router'
+import LogoMain from '@/components/icons/LogoMain.vue'
 
 const router = useRouter()
 
@@ -33,6 +34,9 @@ const doRequest = async () => {
 <template>
   <div class="flex min-h-fill items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
+      <div class="flex min-h-fill items-center justify-center">
+        <LogoMain />
+      </div>
       <h1>Réinitialiser le mot de passe</h1>
       <div class="sm:col-span-2 sm:col-start-1 mt-4">
         <label for="email" class="block text-sm font-medium leading-6 text-gray-900"
