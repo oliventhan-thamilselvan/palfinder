@@ -1,12 +1,32 @@
 <script setup lang="ts">
-const activeMenu = ref(false)
-import { RouterLink } from 'vue-router'
-import LogoIcon from '@/components/icons/PalFinderHeader.vue'
+import { ref, onMounted } from 'vue';
+import { useRouter, RouterLink } from 'vue-router';
+import LogoIcon from '@/components/icons/PalFinderHeader.vue';
+import Pocketbase from 'pocketbase';
 
-import { ref } from 'vue'
+const activeMenu = ref(false);
+const currentUser = ref(null);
+const router = useRouter();
+let pb = null;
+
+onMounted(async () => {
+  pb = new Pocketbase('http://127.0.0.1:8090');
+  if (!pb.authStore.isValid) {
+    router.replace('/login');
+  } else {
+    currentUser.value = pb.authStore.model;
+  }
+});
+
 function closeMenu() {
-  activeMenu.value = false
+  activeMenu.value = false;
 }
+
+const doLogout = () => {
+  pb.authStore.clear();
+  currentUser.value = null;
+  router.replace('/login');
+};
 </script>
 
 <template>
@@ -40,36 +60,13 @@ function closeMenu() {
       :class="{ '!visible opacity-100': activeMenu }"
       v-scroll-lock="activeMenu"
     >
-      <ul v-if="estConnecté" class="mt-[25vh] ml-16 lg:m-0 lg:flex">
-        <li class="menu-item uppercase text-white">
-          <RouterLink to="/events" @click="closeMenu" class="menu-link">mes évènements</RouterLink>
-        </li>
-        <li class="menu-item uppercase text-white">
-          <RouterLink to="/#" @click="closeMenu" class="menu-link">messagerie</RouterLink>
-        </li>
-      </ul>
-      <div class="flex items-center gap-4 px-4">
-        <div v-if="estConnecté">
-          <button @click="logout" class="flex-1 p-3 text-white font-bold lg:flex-none lg:px-6">
-            Déconnexion
-          </button>
-          <RouterLink :to="`${url}`"
-            ><button
-              @click="closeMenu"
-              class="flex-1 p-3 rounded-lg border-2 border-white font-bold text-white lg:flex-none lg:px-6"
-            >
-              {{ estConnecté.username }}
-            </button></RouterLink
-          >
-        </div>
-        <RouterLink
-          v-else
-          to="/connexion"
-          class="flex-1 p-3 rounded-lg border-2 text-white border-white font-bold lg:flex-none lg:px-6"
-        >
-          Se connecter
-        </RouterLink>
-      </div>
+      <button
+        type="button"
+        @click="doLogout"
+        class="mt-4 mr-3 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700 lg:mt-0"
+      >
+        Déconnexion
+      </button>
     </nav>
   </header>
 </template>
