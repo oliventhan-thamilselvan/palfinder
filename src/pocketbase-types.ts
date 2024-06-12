@@ -44,9 +44,44 @@ export type EventsRecord = {
 	sport?: string
 }
 
+export enum UsersFieldOptions {
+	"Football" = "Football",
+	"Basketball" = "Basketball",
+	"Badminton" = "Badminton",
+	"Volley" = "Volley",
+	"Tennis de table" = "Tennis de table",
+	"Paddle" = "Paddle",
+	"Tennis" = "Tennis",
+	"Pétanque" = "Pétanque",
+}
+
+export enum UsersSexeOptions {
+	"Homme" = "Homme",
+	"Femme" = "Femme",
+	"Autre" = "Autre",
+}
+
+export enum UsersStatutOptions {
+	"Disponible" = "Disponible",
+	"Occupé" = "Occupé",
+}
+
+export enum UsersObjectifOptions {
+	"Fun" = "Fun",
+	"Compétitif" = "Compétitif",
+}
 export type UsersRecord = {
+	age?: number
 	avatar?: string
+	banniere?: string
+	bio?: string
+	field?: UsersFieldOptions
+	lieu?: string
 	name?: string
+	objectif?: UsersObjectifOptions
+	position?: string
+	sexe?: UsersSexeOptions
+	statut?: UsersStatutOptions
 }
 
 // Response types include system fields and match responses from the PocketBase API

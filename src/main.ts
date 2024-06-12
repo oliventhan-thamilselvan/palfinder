@@ -6,6 +6,8 @@ import HomePage from './vues/HomePage.vue'
 import CreateAccountPage from './vues/CreateAccountPage.vue'
 import LoginPage from './vues/LoginPage.vue'
 import RequestChangePasswordPage from './vues/RequestChangePasswordPage.vue'
+import Profile from './vues/Profile.vue'
+import EditProfile from './vues/EditProfile.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,7 +16,9 @@ const router = createRouter({
     { path: '/home', component: HomePage },
     { path: '/create-account', component: CreateAccountPage },
     { path: '/login', component: LoginPage },
-    { path: '/request-change-password', component: RequestChangePasswordPage }
+    { path: '/request-change-password', component: RequestChangePasswordPage },
+    { path: '/profile', component: Profile },
+    { path: '/edit-profile', component: EditProfile }
   ]
 })
 
