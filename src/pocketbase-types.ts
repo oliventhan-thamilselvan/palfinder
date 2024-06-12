@@ -39,7 +39,6 @@ export type EventsRecord = {
 	Date_fin?: IsoDateString
 	Lieu?: string
 	administrateur?: RecordIdString
-	image?: string
 	nmb_participants?: number
 	nom?: string
 	sport?: string
