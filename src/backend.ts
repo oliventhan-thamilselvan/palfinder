@@ -51,3 +51,18 @@ const createEvent = async () => {
       throw error;
     }
   }
+
+  export async function sendContactForm(data: {
+    name: string;
+    email: string;
+    objet: string;
+    message: string;
+    consent: boolean;
+  }) {
+    try {
+      await pb.collection('contacts').create(data);
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi du message de contact:', error);
+      throw error;
+    }
+  }

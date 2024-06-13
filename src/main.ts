@@ -8,6 +8,8 @@ import LoginPage from './vues/LoginPage.vue'
 import RequestChangePasswordPage from './vues/RequestChangePasswordPage.vue'
 import Profile from './vues/Profile.vue'
 import EditProfile from './vues/EditProfile.vue'
+import ContactPage from './vues/ContactPage.vue';
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -18,7 +20,8 @@ const router = createRouter({
     { path: '/login', component: LoginPage },
     { path: '/request-change-password', component: RequestChangePasswordPage },
     { path: '/profile', component: Profile },
-    { path: '/edit-profile', component: EditProfile }
+    { path: '/edit-profile', component: EditProfile },
+    { path: '/contact', component: ContactPage },
   ]
 })
 
