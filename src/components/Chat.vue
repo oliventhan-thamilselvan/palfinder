@@ -6,19 +6,28 @@ import PocketBase from 'pocketbase';
 const messages = ref([]);
 const newMessageContent = ref('');
 const currentUser = ref(null);
+const userColors = ref({});
 let intervalId = null;
+
+const colors = [
+  '#e6194b', '#3cb44b', '#0082c8', '#f58231', '#911eb4', 
+  '#46f0f0', '#f032e6', '#fabebe', '#008080', '#e6beff', 
+  '#aa6e28', '#800000', '#aaffc3', '#808000', '#000080', 
+  '#808080', '#000000'
+];
+
+const getColorForUser = (userId) => {
+  if (!userColors.value[userId]) {
+    userColors.value[userId] = colors[Object.keys(userColors.value).length % colors.length];
+  }
+  return userColors.value[userId];
+};
 
 const updateMessages = async () => {
   try {
     const fetchedMessages = await fetchMessages();
     messages.value = fetchedMessages;
     console.log('Updated messages:', messages.value);
-    nextTick(() => {
-      const messagesContainer = document.querySelector('.messages');
-      if (messagesContainer) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }
-    });
   } catch (error) {
     console.error('Error fetching messages:', error);
   }
@@ -74,9 +83,13 @@ const handleSendMessage = async () => {
 <template>
   <div class="chat-container">
     <div class="messages">
-      <div v-for="message in messages" :key="message.id" class="message">
-        <strong v-if="message.expand && message.expand.author">{{ message.expand.author.name }}:</strong>
-        <strong v-else>Unknown:</strong>
+      <div 
+        v-for="message in messages" 
+        :key="message.id" 
+        class="message" 
+        :style="{ backgroundColor: getColorForUser(message.author) }"
+      >
+        <strong>{{ message.expand?.author?.name || 'Unknown' }}:</strong>
         {{ message.content }}
       </div>
     </div>
@@ -111,6 +124,9 @@ const handleSendMessage = async () => {
 
 .message {
   margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  color: white;
 }
 
 .new-message {

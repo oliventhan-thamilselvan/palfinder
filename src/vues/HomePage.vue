@@ -58,12 +58,12 @@ const toggleChat = () => {
 
     <button
       @click="toggleChat"
-      class="fixed top-24 right-8 bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-blue-700 focus:outline-none"
+      class="fixed top-24 right-8 bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:bg-blue-700 focus:outline-none"
     >
       Chat
     </button>
 
-    <div v-if="showChat" class="fixed top-24 right-28 bg-white shadow-lg rounded-lg w-78 h-96 p-4">
+    <div v-if="showChat" class="fixed top-24 right-28 bg-white shadow-2xl rounded-lg w-78 h-96 p-4">
       <Chat />
     </div>
   </div>
