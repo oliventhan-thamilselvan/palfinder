@@ -87,7 +87,7 @@ const handleSendMessage = async () => {
         v-for="message in messages" 
         :key="message.id" 
         class="message" 
-        :style="{ backgroundColor: getColorForUser(message.author) }"
+        :style="{ backgroundColor: getColorForUser(message.author) + '50' }"
       >
         <strong>{{ message.expand?.author?.name || 'Unknown' }}:</strong>
         {{ message.content }}
@@ -126,7 +126,7 @@ const handleSendMessage = async () => {
   margin-bottom: 8px;
   padding: 8px;
   border-radius: 4px;
-  color: white;
+  color: black;
 }
 
 .new-message {
