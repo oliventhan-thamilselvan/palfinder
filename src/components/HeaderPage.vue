@@ -57,20 +57,25 @@ const toggleMenu = () => {
       <LogoIcon />
     </RouterLink>
 
-    <div class="flex items-center gap-4 ml-auto relative">
-      <img
-        :src="getAvatarUrl()"
-        alt="User Avatar"
+    <div v-if="currentUser" class="flex items-center gap-4 ml-auto relative">
+      <div
         id="user-avatar"
-        class="w-10 h-10 rounded-full border-2 border-white object-cover cursor-pointer"
-        v-if="currentUser && currentUser.avatar"
+        class="w-10 h-10 rounded-full border-2 border-white object-cover cursor-pointer flex items-center justify-center bg-gray-400"
         @click="toggleMenu"
-      />
+      >
+        <img
+          v-if="currentUser && currentUser.avatar"
+          :src="getAvatarUrl()"
+          alt="User Avatar"
+          class="w-full h-full rounded-full"
+        />
+        <span v-else class="text-white text-xl">?</span>
+      </div>
 
       <div
         v-if="activeMenu"
         id="dropdown-menu"
-        class="absolute right-0 mt-44 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
+        class="absolute right-0 mt-48 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
       >
         <RouterLink
           to="/profile"
@@ -91,43 +96,6 @@ const toggleMenu = () => {
 </template>
 
 <style scoped>
-.profile-container {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding-bottom: 20px;
-}
-
-.avatar-container img {
-  border-radius: 50%;
-}
-
-.profile-details h2 {
-  margin-top: 10px;
-}
-
-.buttons button {
-  margin-top: 10px;
-}
-
-.profile-info div {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
-}
-
-.profile-info label {
-  font-weight: 600;
-}
-
-.profile-info span {
-  font-weight: 400;
-}
-
 #dropdown-menu {
   z-index: 50; /* Assure que le menu reste au-dessus de tout autre élément */
 }
