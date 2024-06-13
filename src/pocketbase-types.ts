@@ -39,6 +39,7 @@ export type EventsRecord = {
 	Date_fin?: IsoDateString
 	Lieu?: string
 	administrateur?: RecordIdString
+	current_participants?: number
 	nmb_participants?: number
 	nom?: string
 	sport?: string
@@ -75,6 +76,7 @@ export type UsersRecord = {
 	avatar?: string
 	banniere?: string
 	bio?: string
+	events?: RecordIdString[]
 	field?: UsersFieldOptions
 	lieu?: string
 	name?: string
