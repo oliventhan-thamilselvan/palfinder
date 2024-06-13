@@ -154,7 +154,7 @@ const doUpdateProfile = async () => {
         <div class="text-center mt-4">
           <button
             @click="doUpdateProfile"
-            class="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+            class="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-800"
           >
             Mettre à jour
           </button>

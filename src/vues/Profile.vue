@@ -55,7 +55,7 @@ const doLogout = () => {
       <p class="text-gray-600">{{ currentUser && currentUser.lieu }}</p>
     </div>
     <div class="buttons mt-4 flex space-x-2">
-      <button @click="goToEditProfile" class="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
+      <button @click="goToEditProfile" class="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-800">
         Modifier profil
       </button>
       <button @click="doLogout" class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">
@@ -65,7 +65,7 @@ const doLogout = () => {
     <div class="profile-info mt-6 space-y-4">
       <div class="flex items-center">
         <label class="text-gray-600">Sports préférés :</label>
-        <span class="ml-2 px-3 py-1 bg-blue-100 text-blue-600 rounded-full">{{ currentUser && currentUser.field }}</span>
+        <span class="ml-2 px-3 py-1 bg-blue-100 text-sky-600 rounded-full">{{ currentUser && currentUser.field }}</span>
       </div>
       <div class="flex items-center">
         <label class="text-gray-600">Sexe :</label>

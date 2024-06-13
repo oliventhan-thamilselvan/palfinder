@@ -73,7 +73,7 @@ const toggleChat = () => {
 
     <button
       @click="toggleChat"
-      class="fixed top-24 right-8 bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:bg-blue-700 focus:outline-none"
+      class="fixed top-24 right-8 bg-sky-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:bg-sky-800 focus:outline-none"
     >
       Chat
     </button>

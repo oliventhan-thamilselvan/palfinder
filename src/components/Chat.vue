@@ -145,7 +145,7 @@ const handleSendMessage = async () => {
 .new-message button {
   padding: 8px 6px;
   border: none;
-  background-color: #28a745;
+  background-color: #2586CC;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -153,6 +153,6 @@ const handleSendMessage = async () => {
 }
 
 .new-message button:hover {
-  background-color: #218838;
+  background-color: #0975C3;
 }
 </style>

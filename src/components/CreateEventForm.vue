@@ -1,6 +1,6 @@
 <template>
     <div class="max-w-lg mx-auto my-4 p-6 bg-white shadow-md rounded-lg">
-      <h2 class="text-2xl font-bold mb-4 text-blue-600">Créer un événement</h2>
+      <h2 class="text-2xl font-bold mb-4 text-sky-600">Créer un événement</h2>
       <form @submit.prevent="createEvent">
         <div class="mb-4">
           <label for="nom" class="block text-gray-700 font-bold mb-2">Nom</label>
@@ -30,7 +30,7 @@
           <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
           <textarea v-model="form.description" id="description" class="w-full px-3 py-2 border rounded-md" rows="4" required></textarea>
         </div>
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md font-bold hover:bg-blue-700">Créer</button>
+        <button type="submit" class="bg-sky-600 text-white px-4 py-2 rounded-md font-bold hover:bg-sky-800">Créer</button>
       </form>
     </div>
   </template>
