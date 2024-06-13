@@ -25,3 +25,34 @@ const createEvent = async () => {
     console.error("Erreur lors de la création de l'événement:", error)
   }}
 
+  export async function fetchMessages() {
+    try {
+      if (!pb.authStore.isValid) {
+        throw new Error('User is not authenticated');
+      }
+      const messages = await pb.collection('messages').getFullList({
+        sort: '-created',
+        expand: 'author',
+      });
+      console.log('Fetched messages:', messages);
+      return messages;
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      throw error;
+    }
+  }
+  
+  export async function sendMessage(content: string, authorId: string) {
+    try {
+      console.log('Sending message with content:', content, 'and authorId:', authorId);
+      const newMessage = await pb.collection('messages').create({
+        content,
+        author: authorId,
+      });
+      console.log('Message sent:', newMessage);
+      return newMessage;
+    } catch (error) {
+      console.error('Error sending message:', error);
+      throw error;
+    }
+  }
