@@ -49,6 +49,8 @@ export type EventsRecord = {
 	Lieu?: string
 	administrateur?: RecordIdString
 	current_participants?: number
+	latitude?: number
+	longitude?: number
 	nmb_participants?: number
 	nom?: string
 	sport?: string
