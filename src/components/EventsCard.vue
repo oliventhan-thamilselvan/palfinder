@@ -22,7 +22,7 @@ const formattedEndTime = computed(() => {
 </script>
 
 <template>
-  <div class="bg-blue-600 shadow-md rounded-lg overflow-hidden max-w-sm mx-auto my-4 text-white">
+  <div class="bg-sky-600 shadow-md rounded-lg overflow-hidden max-w-sm mx-auto my-4 text-white">
     <img src="@/assets/event.webp" alt="Event Image" class="w-full h-48 object-cover">
     <div class="px-6 py-4">
       <div class="font-bold text-2xl mb-2">{{ props.nom }}</div>

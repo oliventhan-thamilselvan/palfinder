@@ -38,11 +38,18 @@ const toggleChat = () => {
   <h2 class="text-left">Bienvenue {{ currentUser?.name || currentUser?.email }} !</h2>
 </div>
 
-
-
   <div class="relative min-h-screen flex flex-col items-center justify-center">
 
     <div class="flex flex-col items-center">
+      <div class="mb-8 mt-10 w-full" style="position: relative; height: 40vh;">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21562.60192026512!2d6.780871145659849!3d47.50305690552317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4792172655793f9f%3A0x1b3b0f76560084ad!2sD%C3%A9partement%20MMI%20de%20Montb%C3%A9liard!5e0!3m2!1sfr!2sfr!4v1718256067766!5m2!1sfr!2sfr" 
+            style="border:0; width: 100%; height: 100%;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
+
 
       <button
         type="button"
@@ -67,7 +74,7 @@ const toggleChat = () => {
       <CreateEventForm />
     </div>
 
-    <div class="flex flex-wrap justify-center gap-6 mt-6">
+    <div class="flex flex-wrap justify-center gap-6 mt-6 mb-8">
       <EventsCard v-for="event in events" :key="event.id" v-bind="event" />
     </div>
 
