@@ -34,26 +34,41 @@ const toggleChat = () => {
 </script>
 
 <template>
-  <div class="relative">
-    <div class="items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <h2>Welcome {{ currentUser?.name || currentUser?.email }}</h2>
-      <div class="sm:col-span-2 sm:col-start-1 mt-6">
-        <button
-          type="button"
-          @click="toggleCreateForm"
-          class="mr-3 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
-        >
-          Ajouter un événement
-        </button>
-      </div>
+<div class="w-full max-w-md p-4 text-xl	font-bold">
+  <h2 class="text-left">Bienvenue {{ currentUser?.name || currentUser?.email }} !</h2>
+</div>
 
-      <div v-if="showCreateForm" class="mt-6">
-        <CreateEventForm />
-      </div>
 
-      <div class="flex flex-wrap justify-center gap-6 mt-6">
-        <EventsCard v-for="event in events" :key="event.id" v-bind="event" />
-      </div>
+
+  <div class="relative min-h-screen flex flex-col items-center justify-center">
+
+    <div class="flex flex-col items-center">
+
+      <button
+        type="button"
+        @click="toggleCreateForm"
+        class="rounded-md "
+      >
+      <svg class="w-16 h-16 mb-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cercle bleu -->
+        <circle cx="12" cy="12" r="10" fill="#2586CC"/>
+        <!-- Icône de plus -->
+        <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m4-4H8"/>
+      </svg>      
+    </button>
+      <a
+        class="rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+      >
+        Ajouter un événement
+  </a>
+    </div>
+
+    <div v-if="showCreateForm" class="mt-6">
+      <CreateEventForm />
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-6 mt-6">
+      <EventsCard v-for="event in events" :key="event.id" v-bind="event" />
     </div>
 
     <button
