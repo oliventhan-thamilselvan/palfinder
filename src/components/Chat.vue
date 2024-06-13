@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { fetchMessages, sendMessage } from '@/backend';
 import PocketBase from 'pocketbase';
 
@@ -13,6 +13,12 @@ const updateMessages = async () => {
     const fetchedMessages = await fetchMessages();
     messages.value = fetchedMessages;
     console.log('Updated messages:', messages.value);
+    nextTick(() => {
+      const messagesContainer = document.querySelector('.messages');
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    });
   } catch (error) {
     console.error('Error fetching messages:', error);
   }
@@ -34,7 +40,7 @@ onMounted(async () => {
     console.error('Error fetching messages:', error);
   }
 
-  intervalId = setInterval(updateMessages, 5000); // Mise à jour des messages toutes les 5 secondes
+  intervalId = setInterval(updateMessages, 1000); // Mise à jour des messages toutes les 5 secondes
 });
 
 onUnmounted(() => {
@@ -51,8 +57,14 @@ const handleSendMessage = async () => {
     console.log('Sending message:', newMessageContent.value);
     const newMessage = await sendMessage(newMessageContent.value, currentUser.value.id);
     console.log('Message sent:', newMessage);
-    messages.value.unshift(newMessage);
+    messages.value.push(newMessage);
     newMessageContent.value = '';
+    nextTick(() => {
+      const messagesContainer = document.querySelector('.messages');
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    });
   } catch (error) {
     console.error('Error sending message:', error);
   }
@@ -93,6 +105,8 @@ const handleSendMessage = async () => {
   max-height: 400px; /* Augmenter la hauteur maximale */
   font-size: 14px;
   word-wrap: break-word; /* Assurer que le texte reste dans la boîte */
+  display: flex;
+  flex-direction: column-reverse; /* Afficher les nouveaux messages en bas */
 }
 
 .message {
