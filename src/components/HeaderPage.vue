@@ -5,16 +5,16 @@ import LogoIcon from '@/components/icons/PalFinderHeader.vue';
 import Pocketbase from 'pocketbase';
 
 const activeMenu = ref(false);
-const currentUser = ref(null);
+const currentUser = ref<any>(null); // Remplacer 'any' par le type utilisateur approprié si disponible
 const router = useRouter();
-let pb = null;
+let pbInstance: Pocketbase | null = null;
 
 onMounted(async () => {
-  pb = new Pocketbase('http://127.0.0.1:8090');
-  if (!pb.authStore.isValid) {
+  pbInstance = new Pocketbase('http://127.0.0.1:8090');
+  if (!pbInstance.authStore.isValid) {
     router.replace('/login');
   } else {
-    currentUser.value = pb.authStore.model;
+    currentUser.value = pbInstance.authStore.model;
   }
 
   document.addEventListener('click', handleClickOutside);
@@ -24,24 +24,26 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside);
 });
 
-function handleClickOutside(event) {
+function handleClickOutside(event: Event) {
   const menu = document.getElementById('dropdown-menu');
   const avatar = document.getElementById('user-avatar');
-  if (menu && !menu.contains(event.target) && !avatar.contains(event.target)) {
+  if (menu && !menu.contains(event.target as Node) && avatar && !avatar.contains(event.target as Node)) {
     activeMenu.value = false;
   }
 }
 
 const doLogout = () => {
-  pb.authStore.clear();
-  currentUser.value = null;
-  activeMenu.value = false;
-  router.replace('/login');
+  if (pbInstance) {
+    pbInstance.authStore.clear();
+    currentUser.value = null;
+    activeMenu.value = false;
+    router.replace('/login');
+  }
 };
 
-const getAvatarUrl = () => {
+const getAvatarUrl = (): string => {
   if (currentUser.value && currentUser.value.avatar) {
-    return `${pb.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.avatar}`;
+    return `${pbInstance!.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.avatar}`;
   }
   return '';
 };

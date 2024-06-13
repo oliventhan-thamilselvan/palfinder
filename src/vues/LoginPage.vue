@@ -6,27 +6,24 @@ import LogoMain from '@/components/icons/LogoMain.vue'
 
 const router = useRouter()
 
-onMounted(async () => {
-  pb = new Pocketbase('http://127.0.0.1:8090')
+const pb = new Pocketbase('http://127.0.0.1:8090')
+const currentUser = ref<any>(null) // Remplacer 'any' par le type utilisateur approprié si disponible
+const username = ref<string>('')
+const password = ref<string>('')
 
+onMounted(() => {
   pb.authStore.onChange(() => {
     currentUser.value = pb.authStore.model
   }, true)
 })
 
-let pb = null
-const currentUser = ref()
-const username = ref('')
-const password = ref('')
-
-/**
- *
- */
 const doLogin = async () => {
   try {
-    const authData = await pb.collection('users').authWithPassword(username.value, password.value)
-    pb.authStore.isValid && router.replace('/home')
-  } catch (error) {
+    await pb.collection('users').authWithPassword(username.value, password.value)
+    if (pb.authStore.isValid) {
+      router.replace('/home')
+    }
+  } catch (error: any) {
     alert(error.message)
   }
 }
@@ -36,13 +33,11 @@ const doLogin = async () => {
   <div class="flex min-h-fill items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div class="flex min-h-fill items-center justify-center">
-      <LogoMain />
-    </div>
+        <LogoMain />
+      </div>
       <h1>Se connecter</h1>
       <div class="sm:col-span-2 sm:col-start-1 mt-4">
-        <label for="username" class="block text-sm font-medium leading-6 text-gray-900"
-          >Adresse mail</label
-        >
+        <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Adresse mail</label>
         <div class="mt-2">
           <input
             v-model="username"
@@ -56,9 +51,7 @@ const doLogin = async () => {
         </div>
       </div>
       <div class="sm:col-span-2 sm:col-start-1 mt-2">
-        <label for="password" class="block text-sm font-medium leading-6 text-gray-900"
-          >Password</label
-        >
+        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         <div class="mt-2">
           <input
             v-model="password"
@@ -86,7 +79,6 @@ const doLogin = async () => {
         >
           S’inscrire
         </button>
-
         <button
           type="button"
           @click="router.push('/request-change-password')"

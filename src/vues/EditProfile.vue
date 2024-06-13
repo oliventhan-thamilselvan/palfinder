@@ -2,70 +2,75 @@
 import { ref, onMounted } from 'vue'
 import PocketBase from 'pocketbase'
 import { useRouter } from 'vue-router'
+import { pb } from '@/backend'
 
-let pb = null
-const currentUser = ref(null)
-const avatar = ref('')
-const banner = ref('')
-const bio = ref('')
-const field = ref('')
-const sexe = ref('')
-const age = ref(0)
-const statut = ref('')
-const objectif = ref('')
-const position = ref('')
-const lieu = ref('')
+// Typing for PocketBase
+let pbInstance: PocketBase | null = null
+const currentUser = ref<any>(null) // Better to replace 'any' with actual user type
+const avatar = ref<string>('')
+const banner = ref<string>('')
+const bio = ref<string>('')
+const field = ref<string>('')
+const sexe = ref<string>('')
+const age = ref<number>(0)
+const statut = ref<string>('')
+const objectif = ref<string>('')
+const position = ref<string>('')
+const lieu = ref<string>('')
 const router = useRouter()
 
 onMounted(async () => {
-  pb = new PocketBase('http://127.0.0.1:8090')
+  pbInstance = new PocketBase('http://127.0.0.1:8090')
 
-  if (!pb.authStore.isValid) {
+  if (!pbInstance.authStore.isValid) {
     router.replace('/login')
   } else {
-    currentUser.value = pb.authStore.model
+    currentUser.value = pbInstance.authStore.model
     avatar.value = getAvatarUrl()
     banner.value = getBannerUrl()
-    bio.value = currentUser.value.bio
-    field.value = currentUser.value.field
-    sexe.value = currentUser.value.sexe
-    age.value = currentUser.value.age
-    statut.value = currentUser.value.statut
-    objectif.value = currentUser.value.objectif
-    position.value = currentUser.value.position
-    lieu.value = currentUser.value.lieu
+    bio.value = currentUser.value?.bio || ''
+    field.value = currentUser.value?.field || ''
+    sexe.value = currentUser.value?.sexe || ''
+    age.value = currentUser.value?.age || 0
+    statut.value = currentUser.value?.statut || ''
+    objectif.value = currentUser.value?.objectif || ''
+    position.value = currentUser.value?.position || ''
+    lieu.value = currentUser.value?.lieu || ''
   }
 })
 
-const getAvatarUrl = () => {
+const getAvatarUrl = (): string => {
   if (currentUser.value && currentUser.value.avatar) {
-    return `${pb.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.avatar}`
+    return `${pbInstance!.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.avatar}`
   }
   return ''
 }
 
-const getBannerUrl = () => {
+const getBannerUrl = (): string => {
   if (currentUser.value && currentUser.value.banniere) {
-    return `${pb.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.banniere}`
+    return `${pbInstance!.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.banniere}`
   }
   return ''
 }
 
-const handleAvatarChange = (event) => {
-  const file = event.target.files[0]
+const handleAvatarChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files![0]
   avatar.value = URL.createObjectURL(file)
 }
 
-const handleBannerChange = (event) => {
-  const file = event.target.files[0]
+const handleBannerChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files![0]
   banner.value = URL.createObjectURL(file)
 }
 
 const doUpdateProfile = async () => {
   try {
     const formData = new FormData()
-    formData.append('avatar', document.querySelector('#avatar').files[0])
-    formData.append('banniere', document.querySelector('#banniere').files[0])
+    const avatarFile = document.querySelector<HTMLInputElement>('#avatar')!.files![0]
+    const bannerFile = document.querySelector<HTMLInputElement>('#banniere')!.files![0]
+
+    formData.append('avatar', avatarFile)
+    formData.append('banniere', bannerFile)
     formData.append('bio', bio.value)
     formData.append('field', field.value)
     formData.append('sexe', sexe.value)
@@ -76,11 +81,11 @@ const doUpdateProfile = async () => {
     formData.append('lieu', lieu.value)
     formData.append('name', currentUser.value.name)
 
-    await pb.collection('users').update(currentUser.value.id, formData)
+    await pbInstance!.collection('users').update(currentUser.value.id, formData)
 
     router.replace('/profile')
   } catch (error) {
-    alert(error.message)
+    alert((error as Error).message)
   }
 }
 </script>
@@ -169,3 +174,5 @@ const doUpdateProfile = async () => {
     </div>
   </div>
 </template>
+
+

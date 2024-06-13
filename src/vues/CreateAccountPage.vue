@@ -6,31 +6,31 @@ import LogoMain from '@/components/icons/LogoMain.vue'
 
 const router = useRouter()
 
-onMounted(async () => {
-  pb = new PocketBase('http://127.0.0.1:8090')
+let pbInstance: PocketBase | null = null // Typing for PocketBase
+const currentUser = ref<any>(null) // Better to replace 'any' with actual user type
+const username = ref<string>('')
+const password = ref<string>('')
+const fullName = ref<string>('')
 
-  pb.authStore.onChange(() => {
-    currentUser.value = pb.authStore.model
+onMounted(async () => {
+  pbInstance = new PocketBase('http://127.0.0.1:8090')
+
+  pbInstance.authStore.onChange(() => {
+    currentUser.value = pbInstance!.authStore.model
   }, true)
 })
 
-let pb = null
-const currentUser = ref()
-const username = ref('')
-const password = ref('')
-const fullName = ref('')
-
 const doLogin = async () => {
   try {
-    const authData = await pb.collection('users').authWithPassword(username.value, password.value)
+    const authData = await pbInstance!.collection('users').authWithPassword(username.value, password.value)
 
     // after the above you can also access the auth data from the authStore
-    console.log(pb.authStore.isValid)
-    console.log(pb.authStore.token)
-    console.log(pb.authStore.model)
-    // currentUser.value = pb.authStore.model
+    console.log(pbInstance!.authStore.isValid)
+    console.log(pbInstance!.authStore.token)
+    console.log(pbInstance!.authStore.model)
+    // currentUser.value = pbInstance!.authStore.model
   } catch (error) {
-    alert(error.message)
+    alert((error as Error).message)
   }
 }
 
@@ -45,13 +45,13 @@ const doCreateAccount = async () => {
       name: fullName.value
     }
 
-    const record = await pb.collection('users').create(data)
+    const record = await pbInstance!.collection('users').create(data)
 
-    pb.authStore.isValid && router.replace('/home')
+    pbInstance!.authStore.isValid && router.replace('/home')
 
     await doLogin()
   } catch (error) {
-    alert(error.message)
+    alert((error as Error).message)
   }
 }
 </script>
@@ -60,13 +60,11 @@ const doCreateAccount = async () => {
   <div class="flex min-h-fill items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div class="flex min-h-fill items-center justify-center">
-      <LogoMain />
-    </div>
+        <LogoMain />
+      </div>
       <h1>S'inscrire</h1>
       <div class="sm:col-span-2 sm:col-start-1 mt-4">
-        <label for="username" class="block text-sm font-medium leading-6 text-gray-900"
-          >Adresse mail</label
-        >
+        <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Adresse mail</label>
         <div class="mt-2">
           <input
             v-model="username"
@@ -80,9 +78,7 @@ const doCreateAccount = async () => {
         </div>
       </div>
       <div class="sm:col-span-2 sm:col-start-1 mt-2">
-        <label for="password" class="block text-sm font-medium leading-6 text-gray-900"
-          >Password</label
-        >
+        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         <div class="mt-2">
           <input
             v-model="password"
@@ -96,9 +92,7 @@ const doCreateAccount = async () => {
         </div>
         <div></div>
         <div class="mt-7">
-          <label for="fullName" class="block text-sm font-medium leading-6 text-gray-900"
-            >Nom</label
-          >
+          <label for="fullName" class="block text-sm font-medium leading-6 text-gray-900">Nom</label>
           <div class="mt-2">
             <input
               v-model="fullName"

@@ -3,30 +3,31 @@ import { ref, onMounted } from 'vue'
 import PocketBase from 'pocketbase'
 import { useRouter } from 'vue-router'
 
-let pb = null
-const currentUser = ref(null)
+// Typing for PocketBase
+let pbInstance: PocketBase | null = null
+const currentUser = ref<any>(null) // Better to replace 'any' with actual user type
 const router = useRouter()
 
 onMounted(async () => {
-  pb = new PocketBase('http://127.0.0.1:8090')
+  pbInstance = new PocketBase('http://127.0.0.1:8090')
 
-  if (!pb.authStore.isValid) {
+  if (!pbInstance.authStore.isValid) {
     router.replace('/login')
   } else {
-    currentUser.value = pb.authStore.model
+    currentUser.value = pbInstance.authStore.model
   }
 })
 
-const getAvatarUrl = () => {
+const getAvatarUrl = (): string => {
   if (currentUser.value && currentUser.value.avatar) {
-    return `${pb.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.avatar}`
+    return `${pbInstance!.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.avatar}`
   }
   return ''
 }
 
-const getBannerUrl = () => {
+const getBannerUrl = (): string => {
   if (currentUser.value && currentUser.value.banniere) {
-    return `${pb.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.banniere}`
+    return `${pbInstance!.baseUrl}/api/files/users/${currentUser.value.id}/${currentUser.value.banniere}`
   }
   return ''
 }
@@ -36,7 +37,7 @@ const goToEditProfile = () => {
 }
 
 const doLogout = () => {
-  pb.authStore.clear()
+  pbInstance!.authStore.clear()
   router.replace('/login')
 }
 </script>
@@ -135,3 +136,4 @@ const doLogout = () => {
   font-weight: 400;
 }
 </style>
+

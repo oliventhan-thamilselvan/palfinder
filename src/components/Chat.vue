@@ -3,11 +3,23 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { fetchMessages, sendMessage } from '@/backend';
 import PocketBase from 'pocketbase';
 
-const messages = ref([]);
+// Définir les types appropriés
+interface Message {
+  id: string;
+  author: string;
+  content: string;
+  expand?: {
+    author?: {
+      name: string;
+    };
+  };
+}
+
+const messages = ref<Message[]>([]);
 const newMessageContent = ref('');
-const currentUser = ref(null);
-const userColors = ref({});
-let intervalId = null;
+const currentUser = ref<any>(null); // Remplacer 'any' par le type utilisateur approprié si disponible
+const userColors = ref<{ [key: string]: string }>({});
+let intervalId: number | null = null;
 
 const colors = [
   '#e6194b', '#3cb44b', '#0082c8', '#f58231', '#911eb4', 
@@ -16,7 +28,7 @@ const colors = [
   '#808080', '#000000'
 ];
 
-const getColorForUser = (userId) => {
+const getColorForUser = (userId: string): string => {
   if (!userColors.value[userId]) {
     userColors.value[userId] = colors[Object.keys(userColors.value).length % colors.length];
   }
@@ -49,11 +61,13 @@ onMounted(async () => {
     console.error('Error fetching messages:', error);
   }
 
-  intervalId = setInterval(updateMessages, 1000); // Mise à jour des messages toutes les 5 secondes
+  intervalId = window.setInterval(updateMessages, 1000); // Mise à jour des messages toutes les 1 seconde
 });
 
 onUnmounted(() => {
-  clearInterval(intervalId);
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+  }
 });
 
 const handleSendMessage = async () => {

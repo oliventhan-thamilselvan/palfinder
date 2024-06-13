@@ -1,34 +1,37 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import PocketBase from 'pocketbase'
-import { useRouter } from 'vue-router'
-import LogoMain from '@/components/icons/LogoMain.vue'
+import { ref, onMounted } from 'vue';
+import PocketBase from 'pocketbase';
+import { useRouter } from 'vue-router';
+import LogoMain from '@/components/icons/LogoMain.vue';
 
-const router = useRouter()
+const router = useRouter();
 
-onMounted(async () => {
-  pb = new PocketBase('http://127.0.0.1:8090')
+const pb = new PocketBase('http://127.0.0.1:8090');
+const currentUser = ref<any>(null); // Remplacer 'any' par le type utilisateur approprié si disponible
+const email = ref<string>('');
 
+onMounted(() => {
   pb.authStore.onChange(() => {
-    currentUser.value = pb.authStore.model
-  }, true)
-})
-
-let pb = null
-const currentUser = ref()
-const email = ref('')
+    currentUser.value = pb.authStore.model;
+  }, true);
+});
 
 const doRequest = async () => {
-  if (email.value === '') 'Un email est requis pour réinitialiser le mot de passe'
-  try {
-    await pb.collection('users').requestPasswordReset(email.value)
-    alert("Un email a été envoyé à l'adresse indiquée")
-
-    pb.authStore.isValid && router.replace('/home')
-  } catch (error) {
-    alert(error.message)
+  if (email.value === '') {
+    alert('Un email est requis pour réinitialiser le mot de passe');
+    return;
   }
-}
+  try {
+    await pb.collection('users').requestPasswordReset(email.value);
+    alert("Un email a été envoyé à l'adresse indiquée");
+
+    if (pb.authStore.isValid) {
+      router.replace('/home');
+    }
+  } catch (error: any) {
+    alert(error.message);
+  }
+};
 </script>
 
 <template>
@@ -39,9 +42,9 @@ const doRequest = async () => {
       </div>
       <h1>Réinitialiser le mot de passe</h1>
       <div class="sm:col-span-2 sm:col-start-1 mt-4">
-        <label for="email" class="block text-sm font-medium leading-6 text-gray-900"
-          >Adresse mail</label
-        >
+        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
+          Adresse mail
+        </label>
         <div class="mt-2">
           <input
             v-model="email"
