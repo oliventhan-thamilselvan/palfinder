@@ -42,7 +42,7 @@ const toggleChat = () => {
   <div class="relative min-h-screen flex flex-col items-center justify-center w-full">
     <div class="flex flex-col items-center w-full">
 
-      <div class="w-full" style="margin-top: 20px;">
+      <div class="w-full" style="margin-top: 20px; margin-bottom: 30px;">
         <Map />
       </div>
 
@@ -73,12 +73,12 @@ const toggleChat = () => {
 
     <button
       @click="toggleChat"
-      class="fixed top-24 right-8 bg-sky-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:bg-sky-800 focus:outline-none"
+      class="fixed bottom-10 right-8 bg-sky-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:bg-sky-800 focus:outline-none"
     >
       Chat
     </button>
 
-    <div v-if="showChat" class="fixed top-24 right-28 bg-white shadow-2xl rounded-lg w-78 h-96 p-4">
+    <div v-if="showChat" class="fixed bottom-10 right-28 bg-white shadow-2xl rounded-lg w-78 h-96 p-4">
       <Chat />
     </div>
   </div>

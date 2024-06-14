@@ -42,9 +42,11 @@
   
   <style scoped>
   #map-container {
-    height: 600px; /* Vous pouvez ajuster cette valeur selon vos besoins */
-    width: 100%; /* Prendre toute la largeur disponible */
+    height: 500px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+    width: 400px; /* Prendre toute la largeur disponible */
     background-color: #f0f0f0;
+    margin: 0 auto; /* Centre l'élément horizontalement */
+  display: block; /* Assure que l'élément est en mode bloc */
   }
   #map {
     height: 100%;
