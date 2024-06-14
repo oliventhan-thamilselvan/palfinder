@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import EventsCard from '@/components/EventsCard.vue';
 import CreateEventForm from '@/components/CreateEventForm.vue';
 import Chat from '@/components/Chat.vue';
+import Map from '@/components/Map.vue';
 
 import { allEvents } from '@/backend';
 
@@ -38,8 +39,12 @@ const toggleChat = () => {
     <h2 class="text-left">Bienvenue {{ currentUser?.name || currentUser?.email }} !</h2>
   </div>
 
-  <div class="relative min-h-screen flex flex-col items-center justify-center">
-    <div class="flex flex-col items-center">
+  <div class="relative min-h-screen flex flex-col items-center justify-center w-full">
+    <div class="flex flex-col items-center w-full">
+
+      <div class="w-full" style="margin-top: 20px;">
+        <Map />
+      </div>
 
       <button
         type="button"
@@ -62,7 +67,7 @@ const toggleChat = () => {
       <CreateEventForm />
     </div>
 
-    <div class="flex flex-wrap justify-center gap-6 mt-6 mb-8">
+    <div class="flex flex-wrap justify-center gap-6 mt-6 mb-8 w-full">
       <EventsCard v-for="event in events" :key="event.id" v-bind="event" />
     </div>
 

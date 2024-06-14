@@ -28,7 +28,9 @@ const doLogin = async () => {
     console.log(pbInstance!.authStore.isValid)
     console.log(pbInstance!.authStore.token)
     console.log(pbInstance!.authStore.model)
-    // currentUser.value = pbInstance!.authStore.model
+
+    // Redirect to home if login is successful
+    router.replace('/home')
   } catch (error) {
     alert((error as Error).message)
   }
@@ -47,8 +49,7 @@ const doCreateAccount = async () => {
 
     const record = await pbInstance!.collection('users').create(data)
 
-    pbInstance!.authStore.isValid && router.replace('/home')
-
+    // Call login after account creation
     await doLogin()
   } catch (error) {
     alert((error as Error).message)

@@ -103,7 +103,7 @@ const handleSendMessage = async () => {
         class="message" 
         :style="{ backgroundColor: getColorForUser(message.author) + '50' }"
       >
-        <strong>{{ message.expand?.author?.name || 'Unknown' }}:</strong>
+        <strong>{{ message.expand?.author?.name || 'Utilisateur' }}:</strong>
         {{ message.content }}
       </div>
     </div>

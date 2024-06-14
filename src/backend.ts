@@ -106,7 +106,6 @@ export async function sendContactForm(data: {
   }
 }
 
-// Fonction pour obtenir les coordonnées géographiques d'une adresse
 export async function getGeocode(address: string): Promise<{ lat: number, lon: number }> {
   try {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
@@ -122,9 +121,8 @@ export async function getGeocode(address: string): Promise<{ lat: number, lon: n
   }
 }
 
-// Fonction pour obtenir les événements avec leurs coordonnées géographiques
 export async function getEventsWithCoordinates(): Promise<(EventsResponse & { latitude: number | null, longitude: number | null })[]> {
-  try {
+  return retryRequest(async () => {
     const events = await allEvents();
     const eventsWithCoordinates = await Promise.all(events.map(async (event) => {
       if (event.Lieu) {
@@ -140,8 +138,5 @@ export async function getEventsWithCoordinates(): Promise<(EventsResponse & { la
       }
     }));
     return eventsWithCoordinates;
-  } catch (error: any) {
-    console.error('Erreur lors de la récupération des événements avec coordonnées:', error.message);
-    throw error;
-  }
+  });
 }
