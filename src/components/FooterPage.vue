@@ -16,7 +16,7 @@ import { RouterLink } from 'vue-router'
       <h3 class="font-bold uppercase">Menu</h3>
       <ul class="lg:space-y-4 font-light text-sm">
         <li><RouterLink to="">Mentions légales</RouterLink></li>
-        <li><RouterLink to="">Formulaire de contact</RouterLink></li>
+        <li><RouterLink to="/contact">Formulaire de contact</RouterLink></li>
       </ul>
     </nav>
 
